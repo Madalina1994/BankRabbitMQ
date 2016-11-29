@@ -34,10 +34,6 @@ public class BankRabbitMQ { //to fix line 56
     private static final String ROUTING_KEY = "rabbitMQ";
     
     public static void getTranslatorRequest() throws IOException, TimeoutException, InterruptedException, ClassNotFoundException {
-        System.out.println( "I am in the getTranslatorRequest method" );
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost( "datdb.cphbusiness.dk" );
-        Connection connection = factory.newConnection();
         channel = connector.getChannel();
         channel.exchangeDeclare( BANKEXCHANGENAME, "direct" );
         queueName = channel.queueDeclare().getQueue();
@@ -53,8 +49,7 @@ public class BankRabbitMQ { //to fix line 56
                 Data inputMessage = unmarshal( stringMessage );
                 String replyTo = delivery.getProperties().getReplyTo();
                 String corrId = delivery.getProperties().getCorrelationId();
-                String bankName = "Nordic Bank";
-//                String bankName = ( String ) delivery.getProperties().getHeaders().get( "bankName" );
+                String bankName = delivery.getProperties().getHeaders().get( "bankName" ).toString();
                 int total = ( int ) delivery.getProperties().getHeaders().get( "total" );
                 int messageNo = ( int ) delivery.getProperties().getHeaders().get( "messageNo" );
                 System.out.println( " [x] Received from the translator '" + inputMessage.toString() + "'" );
@@ -84,7 +79,6 @@ public class BankRabbitMQ { //to fix line 56
     }
 
     public static String sendInterestRate( String ssn, int creditScore, String replyTo, String corrId, String bankName, int total, int messageNo ) {
-        System.out.println( "I am in the sendInterestRate method" );
         try {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost( "datdb.cphbusiness.dk" );
