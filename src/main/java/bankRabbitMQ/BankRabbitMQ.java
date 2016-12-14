@@ -88,13 +88,13 @@ public class BankRabbitMQ { //to fix line 56
             Channel channel = connection.createChannel();
             double reply = 0;
             if ( creditScore <= 100 ) {
-                reply = 12.02301;
+                reply = 15.101;
             } else if ( creditScore <= 150 && creditScore > 100 ) {
-                reply = 10.20155;
+                reply = 12.1322;
             } else if ( creditScore <= 200 && creditScore > 150 ) {
-                reply = 9.2335;
+                reply = 10.3535;
             } else {
-                reply = 6.32265;
+                reply = 7.74233;
             }
 
             Map<String, Object> headers = new HashMap();
